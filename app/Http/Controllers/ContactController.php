@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactMe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,11 +19,7 @@ class ContactController extends Controller
             'email' => 'required|email'
         ]);
 
-        Mail::raw('Email works!', function ($message) {
-            $message
-                ->to(request('email'))
-                ->subject('Hello there');
-        });
+        Mail::to(request('email'))->send(new ContactMe('anime'));
 
         return redirect(route('contact.show'))
             ->with('message', 'Email Sent!');
